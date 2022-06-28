@@ -1,45 +1,34 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useLayoutEffect } from "react";
+import { CanvasContext } from "./store/Context";
+import Cmps from "./pages/Cmps";
+import Content from "./pages/Content";
+import Edit from "./pages/Edit";
+import { useForceUpdate } from "./hooks";
+import { useCanvas } from "./store/globalCanvas";
+import styles from './App.module.less'
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const forceUpdate = useForceUpdate();
 
+  // 所有组件
+  const globalCanvas = useCanvas();
+
+  useLayoutEffect(() => {
+    // 订阅组件更新
+    const unsubscribe = globalCanvas.subscribe(() => {
+      forceUpdate();
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, [globalCanvas, forceUpdate]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+    <div id="app" className={styles.main}>
+      <CanvasContext.Provider value={globalCanvas}>
+        <Cmps />
+        <Content />
+        <Edit />
+      </CanvasContext.Provider>
     </div>
-  )
+  );
 }
-
-export default App
