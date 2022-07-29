@@ -1,6 +1,11 @@
 export const url0 = "http://150.158.30.131:8181/";
+// 生成随机的 key
 export function getOnlyKey() {
-  return Math.random();
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
+    const r = (Math.random() * 16) | 0,
+      v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
 }
 
 // 规范style，如传入的lineHeight只是数字，没有px，则这里加上

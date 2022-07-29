@@ -20,4 +20,37 @@
     box-shadow:#ccc 1px 1px 20px;
     // margin: 20px;
   }
+  .zoom {
+    @size: 30px;
+
+    position: fixed;
+    right: 400px;
+    bottom: 20px;
+
+    display: flex;
+    height: @size;
+    line-height: @size;
+    color: #500202;
+
+    li {
+      padding: 0 4px;
+    }
+    .icon {
+      @size: 30px;
+      width: @size;
+      height: @size;
+      border-radius: 50%;
+      background-color: #ffe331;
+      cursor: pointer;
+    }
+    .num {
+      font-size: 12px;
+      input {
+        display: inline-block;
+        width: 50px;
+        border: none;
+        text-align: center;
+      }
+    }
+  }
 }

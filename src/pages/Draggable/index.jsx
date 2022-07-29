@@ -117,7 +117,7 @@
    handleMouseDown = (e, direction) => {
      e.stopPropagation();
      e.preventDefault();
- 
+     const { zoom } = this.props
      const cmp = this.context.getCmp(this.props.index);
  
      let startX = e.pageX;
@@ -129,6 +129,10 @@
  
        let disX = x - startX;
        let disY = y - startY;
+
+       disX = disX * (100 / zoom);
+       disY = disY * (100 / zoom);
+
        let newStyle = {};
  
        if (direction) {
@@ -188,6 +192,7 @@
    handleMouseDownofRotate = (e) => {
      e.stopPropagation();
      e.preventDefault();
+     const { zoom } = this.props
  
      const { updateSelectedCmpStyle } = this.context;
  
@@ -200,6 +205,9 @@
  
        let disX = x - startX;
        let disY = y - startY;
+
+       disX = disX * (100 / zoom);
+       disY = disY * (100 / zoom);
  
        const deg = (360 * Math.atan2(disY, disX)) / (2 * Math.PI);
  

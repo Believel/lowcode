@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useContext } from "react";
 import Draggable from "../Draggable";
+import classnames from "classnames";
 import { CanvasContext } from "../../store/Context";
 import styles from "./index.module.less";
 import { formatStyle } from "../../utils";
@@ -18,6 +19,10 @@ function Content(props) {
   const [canvasPos, setCanvasPos] = useState(null);
 
   const canvasRef = useRef();
+
+  const [zoom, setZoom] = useState(() =>
+  parseInt(canvasStyle.width) > 800 ? 50 : 100
+)
 
   // console.log("cmps", cmps, JSON.stringify(globalCanvas.getCanvasData())); //sy-log
 
@@ -79,6 +84,9 @@ function Content(props) {
       // 得到拖拽之后距离差
       let disX = e.pageX - startPos.pageX;
       let disY = e.pageY - startPos.pageY;
+      
+      disX = disX * (100 / zoom);
+      disY = disY * (100 / zoom);
 
       // 获取当前选中的组件的最新信息
       const selectedCmp = globalCanvas.getSelectedCmp();
@@ -99,6 +107,7 @@ function Content(props) {
         style={{
           ...formatStyle(canvasStyle),
           backgroundImage: `url(${canvasStyle.backgroundImage})`,
+          transform: `scale(${zoom / 100})`,
         }}
         ref={canvasRef}
         onDragEnter={handleDragEnter}
@@ -110,10 +119,40 @@ function Content(props) {
         {canvasRef.current &&
           cmps.map((cmp, index) => {
             return cmp.data ? (
-              <Draggable index={index} key={cmp.onlyKey} />
+              <Draggable index={index} key={cmp.onlyKey} zoom={zoom}/>
             ) : null;
           })}
       </div>
+      {/* 控制画布容器大小 */}
+      <ul className={styles.zoom}>
+        <li
+          className={classnames(styles.icon)}
+          onClick={() => {
+            setZoom(zoom + 25);
+          }}>
+          +
+        </li>
+        <li className={classnames(styles.num)}>
+          <input
+            type="num"
+            value={zoom}
+            onChange={(e) => {
+              let newValue = e.target.value;
+              newValue = newValue >= 1 ? newValue : 1;
+              setZoom(newValue - 0);
+            }}
+          />
+          %
+        </li>
+        <li
+          className={classnames(styles.icon)}
+          onClick={() => {
+            const newZoom = zoom - 25 >= 1 ? zoom - 25 : 1;
+            setZoom(newZoom);
+          }}>
+          -
+        </li>
+      </ul>
     </div>
   );
 }
