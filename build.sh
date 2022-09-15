@@ -16,4 +16,4 @@ echo "停止旧容器并删除旧容器"
 docker stop lowcode-container
 docker rm lowcode-container
 echo "启动新容器"
-docker container run -p 80:80 --name lowcode-container -d lowcode:1.0
+docker run -p 80:80 --name lowcode-container -d lowcode:1.0
