@@ -11,7 +11,7 @@ yarn
 echo "编译"
 yarn build
 echo "开始执行构建"
-docker build -t lowcode:1.0
+docker build -f Dockerfile -t lowcode:1.0 .
 echo "停止旧容器并删除旧容器"
 docker stop lowcode-container
 docker rm lowcode-container
