@@ -2,7 +2,7 @@
 WORK_PATH='/www/client/lowcode'
 cd $WORK_PATH
 echo "先清除老代码"
-git rest --hard origin/master
+git reset --hard origin/master
 git clean -f
 echo "拉取最新代码"
 git pull origin master
