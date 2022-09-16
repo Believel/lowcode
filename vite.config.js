@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   // 开发或生产环境服务的公共基础路径
-  base: '/lowcode/',
+  base: '/lowcode',
   server: {
     port: 3001
   },
